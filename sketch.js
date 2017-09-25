@@ -1,17 +1,17 @@
 function setup() {
-	createCanvas(displayWidth, displayHeight);
-	textSize(20);
+	createCanvas(windowWidth, windowHeight);							//windowWidth works over displayWidth
+	// console.log(displayWidth+' '+displayHeight);
+	// console.log(windowWidth+' '+windowHeight);
+	textSize(30);
 	textAlign(CENTER);
-	window.flag = false;
+	textStyle(BOLD);
+	textFont('Georgia');
 }
 
 function draw() {
-	if(window.flag) {
-		text("Hello World", displayWidth/2, displayHeight/2);
-	}
+	text("Hello", windowWidth/2, windowHeight/2);
 }
 
 function touchStarted() {
-	background(random(0, 255), random(0, 255), random(0, 255));  
-	// window.flag = !window.flag;
+	background(random(0, 255), random(0, 255), random(0, 255));
 }
