@@ -1,10 +1,12 @@
-function Particle(x, y, firework) {
+function Particle(x, y, col, firework) {
 	this.pos = createVector(x, y);
 	this.firework = firework;
 	this.lifespan = 255;
+	this.col = col;
 
 	if(this.firework) {
-		this.vel = createVector(0, random(-12, -8));
+		this.vel = createVector(0, random(-14, -10));
+		rocketSound.play();
 	} else {
 		this.vel = p5.Vector.random2D();
 		this.vel.mult(random(2, 10));
@@ -18,7 +20,7 @@ function Particle(x, y, firework) {
 	this.update = function() {
 		if(!this.firework) {
 			this.vel.mult(0.9);
-			this.lifespan -=4;
+			this.lifespan -= 5;
 		}
 		this.vel.add(this.acc);
 		this.pos.add(this.vel);
@@ -35,18 +37,18 @@ function Particle(x, y, firework) {
 
 	this.show = function() {
 		if(!this.firework) {
-			 strokeWeight(2);
-			 stroke(255, this.lifespan);
+			 strokeWeight(3);
+			 stroke(this.col, this.lifespan);
 		} else {
-			strokeWeight(4);
-			stroke(255);
+			strokeWeight(6);
+			stroke(this.col);
 		}
 		point(this.pos.x, this.pos.y);
 	}
 }
 
 function Firework() {
-	this.firework = new Particle(random(width), height, true);
+	this.firework = new Particle(random(width), height, color(255, 255, 255), true);
 	this.exploded = false;
 	this.particles = [];
 
@@ -69,8 +71,10 @@ function Firework() {
 	}
 
 	this.explode = function() {
+		var col =  color(random(255), random(255), random(255));
+		explosionSound.play();
 		for(var i=0 ;i<100 ;i++) {
-			var p = new Particle(this.firework.pos.x, this.firework.pos.y, false);
+			var p = new Particle(this.firework.pos.x, this.firework.pos.y, col, false);
 			this.particles.push(p);
 		}
 	}
@@ -95,18 +99,33 @@ function Firework() {
 
 var fireworks = [];
 var gravity;
+var rocketSound, explosionSound;
+var roboto;
+
+function preload() {
+	rocketSound = loadSound("sounds/Bottle-Rocket.mp3");
+	explosionSound = loadSound("sounds/Explosion.mp3");
+	roboto = loadFont("fonts/Roboto/Roboto-Medium.ttf");
+}
 
 function setup() {
-	createCanvas(400, 300);							//windowWidth works over displayWidth
+	createCanvas(windowWidth, windowHeight);							//windowWidth works over displayWidth
 	gravity = createVector(0, 0.2);
+	colorMode(RGB);
 	stroke(255);
 	strokeWeight(4);
 	background(0);
+	textSize(32);
+	textAlign(CENTER);
+	// textFont('Arial');
+	textFont(roboto);
 	// firework = new Particle(random(width), height);
 }
 
 function draw() {
 	background(0, 25);
+	fill(211, 84, 0);
+	text('HAPPY DIWALI', windowWidth/2, windowHeight/2)
 	if(random(1) < 0.03) {
 		fireworks.push(new Firework());
 	}
@@ -116,6 +135,10 @@ function draw() {
 		if(fireworks[i].done()) {
 			fireworks.splice(i, 1);
 		}
-		console.log(fireworks.length);
+		// console.log(fireworks.length);
 	}
+	var fps = frameRate();
+	fill(255);
+	stroke(0);
+	text("FPS: " + fps.toFixed(2), 10, height - 10);
 }
