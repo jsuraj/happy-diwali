@@ -115,7 +115,6 @@ function setup() {
 	stroke(255);
 	strokeWeight(4);
 	background(0);
-	textSize(32);
 	textAlign(CENTER);
 	// textFont('Arial');
 	textFont(roboto);
@@ -125,7 +124,12 @@ function setup() {
 function draw() {
 	background(0, 25);
 	fill(211, 84, 0);
+	textSize(25);
+	text('Wish you a very', windowWidth/2, windowHeight/3);
+	textSize(35);
 	text('HAPPY DIWALI', windowWidth/2, windowHeight/2)
+	textSize(20);
+	text('Suraj Jagtap', windowWidth/2 , (windowHeight*4)/5);
 	if(random(1) < 0.03) {
 		fireworks.push(new Firework());
 	}
@@ -137,8 +141,8 @@ function draw() {
 		}
 		// console.log(fireworks.length);
 	}
-	var fps = frameRate();
+	// var fps = frameRate();
 	fill(255);
 	stroke(0);
-	text("FPS: " + fps.toFixed(2), 10, height - 10);
+	// text("FPS: " + fps.toFixed(2), 10, height - 10);
 }
